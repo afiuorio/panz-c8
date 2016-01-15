@@ -1,35 +1,37 @@
 #ifndef CPU_H
 #define CPU_H
 
-typedef unsigned char BYTE;
-typedef unsigned short WORD;
+#include <stdint.h>
+
+typedef uint8_t BYTE;
+typedef uint16_t WORD;
 
 #define MEM_SIZE 0xFFF
 
-#define FIRST_HEX(a) ((a&0xF000)>>12)
-#define SEC_HEX(a) ((a &0xF00) >> 8)
-#define THIRD_HEX(a) ((a &0xF0) >> 4)
-#define FOUR_HEX(a) ((a &0xF))
+#define FIRST_HEX(a) ((a & 0xF000) >> 12)
+#define SEC_HEX(a) ((a & 0xF00) >> 8)
+#define THIRD_HEX(a) ((a & 0xF0) >> 4)
+#define FOUR_HEX(a) ((a & 0xF))
 
 #define PUSH(base, l) *(base--) = l;
 #define POP(base, l) l = (*++base);
 
-//76543210
-#define GET_BIT(byte, numBit) (byte&(0x1 << numBit) ) >> numBit
+// 76543210
+#define GET_BIT(byte, numBit) (byte & (0x1 << numBit)) >> numBit
 
-typedef struct c8_cpu{
+typedef struct c8_cpu {
     BYTE memory[MEM_SIZE];
     BYTE registers[16];
     WORD mem_register;
     WORD prog_counter;
-    
+
     WORD timer;
     WORD soundTimer;
-    
+
     WORD *stack;
-    
+
     /*All these variables should me mapped on memory*/
-    
+
     BYTE keymap[16];
     BYTE video_memory[32][64];
     BYTE randomByte;
@@ -46,7 +48,6 @@ void execute8Opc(WORD opcode, c8_cpu *cpu);
 void execute0Opc(WORD opcode, c8_cpu *cpu);
 void executeEOpc(WORD opcode, c8_cpu *cpu);
 void executeFOpc(WORD opcode, c8_cpu *cpu);
-
 
 void execute0NNN(WORD opcode, c8_cpu *cpu);
 void execute00E0(WORD opcode, c8_cpu *cpu);

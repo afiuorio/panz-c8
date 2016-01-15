@@ -1,19 +1,19 @@
-OBJS = main.c opcode.c c8-cpu.c
+SOURCES = $(wildcard *.c)
+OBJECTS=$(SOURCES:.c=.o)
+COMPILER_FLAGS = -c -O2 -std=c99
+EXECUTABLE = panc-8
 
-ifeq ($(OS),Windows_NT)
-CC = gcc
-INCLUDE_PATHS = -IC:\mingw_dev_lib\include\SDL2
-LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2
-else
 CC = clang
-INCLUDE_PATHS =
-LIBRARY_PATHS =
+INCLUDE_PATHS = -I/Library/Frameworks/SDL2.framework/Headers
+LIBRARY_PATHS = -F/Library/Frameworks
 LINKER_FLAGS = -framework SDL2
-endif
 
-COMPILER_FLAGS = -std=c99 -O2
-OBJ_NAME = panc-8
+all: $(SOURCES) $(EXECUTABLE)
 
-all : $(OBJS)
-	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LIBRARY_PATHS) $(LINKER_FLAGS) $(OBJECTS) -o $@
+.c.o:
+	$(CC) $(INCLUDE_PATHS) $(COMPILER_FLAGS) $< -o $@
+
+clean:
+	@rm *.o
