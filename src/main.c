@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
     handleArguments("config.cfg", configOption, &c8);
     loadROM(&c8, argv[1]);
 
-    window = SDL_CreateWindow("panc-8", SDL_WINDOWPOS_UNDEFINED,
+    window = SDL_CreateWindow("panz-c8", SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED, RES_W * *SCALE,
                               RES_H * *SCALE, 0);
     renderer = SDL_CreateRenderer(window, -1, 0);
